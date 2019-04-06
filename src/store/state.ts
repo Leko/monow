@@ -1,12 +1,15 @@
 // import { PackageGraphNode } from "@lerna/package-graph";
 
+export type Package = {
+  name: string;
+};
+
 export type SubState = {
   ready: boolean;
   queued: boolean;
   busy: boolean;
-  package: {
-    name: string;
-  };
+  error: Error | null;
+  package: Package;
 };
 
 export type State = {

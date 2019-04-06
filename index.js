@@ -1,5 +1,15 @@
 #!/usr/bin/env node
 
+// import { getPackages } from "./selectors";
+// import { render } from "../renderer";
+// const store = createStore({});
+// const unSubscribe = store.subscribe(() => {
+//   const props = {
+//     packages: getPackages(store.getState())
+//   };
+//   logUpdate(render(props));
+// });
+
 const { EOL } = require("os");
 const fs = require("fs");
 const path = require("path");
