@@ -1,0 +1,28 @@
+{
+  "name": "monow",
+  "version": "1.0.0",
+  "description": "Zero configuration monorepo watcher",
+  "bin": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "Leko/monow",
+  "author": "Leko <leko.noor@gmail.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "lerna": ">= 3.0.0"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "chokidar": "^2.1.5",
+    "execa": "^1.0.0",
+    "find-up": "^3.0.0",
+    "ignore": "^5.0.6",
+    "lodash": "^4.17.11",
+    "log-update": "^3.2.0"
+  },
+  "devDependencies": {
+    "@lerna/project": "^3.0.0",
+    "@lerna/package-graph": "^3.0.0"
+  }
+}
