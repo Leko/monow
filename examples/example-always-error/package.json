@@ -1,0 +1,7 @@
+{
+  "name": "example-always-error",
+  "private": true,
+  "scripts": {
+    "prepare": "echo stdout; echo stderr 1>&2; exit 1"
+  }
+}
