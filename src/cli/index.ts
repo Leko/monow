@@ -9,14 +9,6 @@ import { reducer } from "../store/reducer";
 import * as actions from "../store/action";
 import { Compiler } from "../compiler";
 
-function escapePackageName(name: string): string {
-  return name.replace("@", "").replace("/", "__");
-}
-
-function getLogNameTemplate(name: string): string {
-  return `.monow-${escapePackageName(name)}-XXXXXX.log`;
-}
-
 async function getStore(rootDir: string) {
   const tty = process.stdout;
   const compiler = new Compiler({ shell: `npm run prepare` });
@@ -24,7 +16,7 @@ async function getStore(rootDir: string) {
   const initialState = lernaPackages.reduce(
     (state, pkg) => {
       const { name: logPath } = tmp.fileSync({
-        template: getLogNameTemplate(pkg.name)
+        template: `.monow-XXXXXX.log`
       });
       return reducer(state, actions.addPackage(pkg, logPath));
     },
