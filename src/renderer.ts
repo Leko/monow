@@ -3,6 +3,7 @@ import { Store } from "redux";
 import logUpdate from "log-update";
 import stringWidth from "string-width";
 import chalk from "chalk";
+import { headWordWrap } from "./lib/ansi";
 import { SubState, State } from "./store/state";
 import { Action } from "./store/action";
 import { getPackages, getWidth, getHeight } from "./store/selectors";
@@ -49,7 +50,7 @@ function renderLogPath({ error, logPath }: SubState): string {
 }
 
 function renderError({ error }: SubState): string {
-  return error ? error.message || "" : "";
+  return error ? error.message.trim() || "" : "";
 }
 
 function renderDivider({
@@ -82,15 +83,9 @@ function renderErrorSummary({
 }: SubState & { width: number; lines: number }): string {
   const { package: pkg } = subState;
   const separator = renderDivider({ title: `Error of ${pkg.name}`, width });
-  const log = head(renderError(subState), lines - 1);
-  return separator + EOL + log;
-}
+  const log = headWordWrap(renderError(subState), width, lines - 3);
 
-function head(str: string, n: number): string {
-  return str
-    .split(EOL)
-    .slice(0, n)
-    .join(EOL);
+  return EOL + separator + EOL + log;
 }
 
 export function render(props: Props): string {

@@ -1,3 +1,4 @@
+import { produce, Draft } from "immer";
 import { State, SubState } from "./state";
 import { Action } from "./action";
 
@@ -17,6 +18,7 @@ function mergePackageState(
   return {
     ...state,
     packages: {
+      ...state.packages,
       [key]: {
         ...state.packages[key],
         ...overrides
@@ -25,45 +27,45 @@ function mergePackageState(
   };
 }
 
-export function reducer(state: State = initialState, action: Action): State {
+function reduce(draft: Draft<State>, action: Action) {
   switch (action.type) {
     case "ADD_PACKAGE":
-      return mergePackageState(state, action.pkg.location, {
+      draft.packages[action.pkg.location] = {
         package: action.pkg,
         logPath: action.logPath,
         busy: false,
         ready: false,
         queued: false,
         error: null
-      });
+      };
+      break;
     case "MAKE_READY":
-      return mergePackageState(state, action.dir, {
-        ready: true
-      });
+      draft.packages[action.dir].ready = true;
+      break;
     case "GET_BUSY":
-      return mergePackageState(state, action.dir, {
-        busy: true
-      });
+      draft.packages[action.dir].busy = true;
+      break;
     case "COMPILE_STARTED":
-      return mergePackageState(state, action.dir, {
-        busy: true,
-        queued: false,
-        error: null
-      });
+      draft.packages[action.dir].busy = true;
+      draft.packages[action.dir].queued = false;
+      draft.packages[action.dir].error = null;
+      break;
     case "COMPILE_COMPLETED":
-      return mergePackageState(state, action.dir, {
-        busy: false,
-        error: action.error
-      });
+      draft.packages[action.dir].busy = false;
+      draft.packages[action.dir].error = action.error;
+      break;
     case "COMPILE_QUEUED":
-      return mergePackageState(state, action.dir, {
-        queued: true
-      });
+      draft.packages[action.dir].queued = true;
+      break;
     case "RESIZED": {
-      const { width, height } = action;
-      return { ...state, size: { width, height } };
+      draft.size.width = action.width;
+      draft.size.height = action.height;
+      break;
     }
-    default:
-      return state;
   }
+  return draft;
+}
+
+export function reducer(state: State = initialState, action: Action): State {
+  return produce(state, draft => reduce(draft, action));
 }
