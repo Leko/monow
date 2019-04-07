@@ -6,8 +6,9 @@ export function reducer(state: State = {}, action: Action): State {
     case "ADD_PACKAGE":
       return {
         ...state,
-        [action.dir]: {
+        [action.pkg.location]: {
           package: action.pkg,
+          logPath: action.logPath,
           busy: false,
           ready: false,
           queued: false,
@@ -30,14 +31,6 @@ export function reducer(state: State = {}, action: Action): State {
           busy: true
         }
       };
-    case "FREE":
-      return {
-        ...state,
-        [action.dir]: {
-          ...state[action.dir],
-          busy: false
-        }
-      };
     case "COMPILE_STARTED":
       return {
         ...state,
@@ -55,6 +48,14 @@ export function reducer(state: State = {}, action: Action): State {
           ...state[action.dir],
           busy: false,
           error: action.error
+        }
+      };
+    case "COMPILE_QUEUED":
+      return {
+        ...state,
+        [action.dir]: {
+          ...state[action.dir],
+          queued: true
         }
       };
     default:

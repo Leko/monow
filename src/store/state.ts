@@ -2,6 +2,7 @@
 
 export type Package = {
   name: string;
+  location: string;
 };
 
 export type SubState = {
@@ -9,6 +10,7 @@ export type SubState = {
   queued: boolean;
   busy: boolean;
   error: Error | null;
+  logPath: string;
   package: Package;
 };
 
