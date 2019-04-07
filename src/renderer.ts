@@ -82,10 +82,10 @@ function renderErrorSummary({
   ...subState
 }: SubState & { width: number; lines: number }): string {
   const { package: pkg } = subState;
-  const separator = renderDivider({ title: `Error of ${pkg.name}`, width });
+  const separator = renderDivider({ title: `Error: ${pkg.name}`, width });
   const log = headWordWrap(renderError(subState), width, lines - 3);
 
-  return EOL + separator + EOL + log;
+  return EOL + separator + EOL + chalk.red(log);
 }
 
 export function render(props: Props): string {
