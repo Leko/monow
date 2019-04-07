@@ -1,4 +1,4 @@
-import sortBy from "lodash/sortBy";
+import sortBy from "lodash.sortby";
 import { State } from "./state";
 
 export const getWidth = (state: State) => state.size.width;
