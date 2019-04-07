@@ -22,5 +22,8 @@ export class Watcher extends FSWatcher {
 }
 
 export function watch(dir: string, options: WatchOptions & Options) {
-  return new Watcher(options).add(dir);
+  const watcher = new Watcher(options);
+  watcher.add(dir);
+
+  return watcher;
 }
