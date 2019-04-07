@@ -8,6 +8,7 @@ import { getRootDir, getLernaPackages } from "../lib/lerna";
 import { reducer } from "../store/reducer";
 import * as actions from "../store/action";
 import { Compiler } from "../compiler";
+import { Tester } from "../tester";
 
 type Options = {
   buildScript: string;
@@ -18,6 +19,7 @@ type Options = {
 async function getStore(rootDir: string, options: Options) {
   const tty = process.stdout;
   const compiler = new Compiler({ shell: options.buildScript });
+  const tester = new Tester({ shell: options.testScript });
   const lernaPackages = await getLernaPackages(rootDir);
   const initialState = lernaPackages.reduce(
     (state, pkg) => {
@@ -35,7 +37,11 @@ async function getStore(rootDir: string, options: Options) {
     }
   );
 
-  return createStore(initialState, { compiler, tty });
+  return createStore(initialState, {
+    compiler,
+    tty,
+    tester: options.runTests ? tester : null
+  });
 }
 
 export async function main(cwd: string, options: Options) {

@@ -1,12 +1,11 @@
 {
   "name": "monow",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Zero configuration monorepo watcher",
   "bin": "index.js",
   "scripts": {
     "prepare": "rm -rf dist && npm-run-all build:*",
-    "build:esm": "tsc --module esnext --target es2017 --outDir dist/esm",
-    "build:cjs": "tsc --module commonjs --target es2017 --outDir dist/cjs",
+    "build:cjs": "tsc --module commonjs --target es2017 --outDir dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": "Leko/monow",
