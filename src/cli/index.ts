@@ -1,14 +1,12 @@
 import tmp from "tmp";
-import logUpdate from "log-update";
 import { createStore } from "../store";
 import { getPackages } from "../store/selectors";
 import { watch } from "../watcher";
-import { render } from "../renderer";
+import { createRenderer } from "../renderer";
 import { getIgnore } from "../lib/gitignore";
 import { getRootDir, getLernaPackages } from "../lib/lerna";
 import { reducer } from "../store/reducer";
 import * as actions from "../store/action";
-import { State } from "../store/state";
 import { Compiler } from "../compiler";
 
 function escapePackageName(name: string): string {
@@ -20,19 +18,29 @@ function getLogNameTemplate(name: string): string {
 }
 
 async function getStore(rootDir: string) {
+  const tty = process.stdout;
   const compiler = new Compiler({ shell: `npm run prepare` });
-  const packages = await getLernaPackages(rootDir);
-  const initialState: State = packages.reduce((acc, pkg) => {
-    const { name: logPath } = tmp.fileSync({
-      template: getLogNameTemplate(pkg.name)
-    });
-    return reducer(acc, actions.addPackage(pkg, logPath));
-  }, {});
+  const lernaPackages = await getLernaPackages(rootDir);
+  const initialState = lernaPackages.reduce(
+    (state, pkg) => {
+      const { name: logPath } = tmp.fileSync({
+        template: getLogNameTemplate(pkg.name)
+      });
+      return reducer(state, actions.addPackage(pkg, logPath));
+    },
+    {
+      size: {
+        width: tty.columns!,
+        height: tty.rows!
+      },
+      packages: {}
+    }
+  );
 
-  return createStore(initialState, { compiler });
+  return createStore(initialState, { compiler, tty });
 }
 
-export async function main(cwd) {
+export async function main(cwd: string) {
   const rootDir = getRootDir(cwd);
   if (!rootDir) {
     throw new Error("Cannot find lerna.json");
@@ -41,16 +49,7 @@ export async function main(cwd) {
   tmp.setGracefulCleanup();
 
   const store = await getStore(rootDir);
-  store.subscribe(() =>
-    logUpdate(
-      render({
-        // FIXME: Move to redux state
-        width: process.stdout.columns!,
-        height: process.stdout.rows!,
-        packages: getPackages(store.getState())
-      })
-    )
-  );
+  store.subscribe(createRenderer(store));
 
   const packages = getPackages(store.getState());
   if (packages.length === 0) {

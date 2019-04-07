@@ -1,7 +1,11 @@
 import { EOL } from "os";
+import { Store } from "redux";
+import logUpdate from "log-update";
 import stringWidth from "string-width";
 import chalk from "chalk";
-import { SubState } from "./store/state";
+import { SubState, State } from "./store/state";
+import { Action } from "./store/action";
+import { getPackages, getWidth, getHeight } from "./store/selectors";
 
 type Props = {
   width: number;
@@ -13,8 +17,7 @@ function renderIndicator({
   indicator,
   ready,
   busy,
-  error,
-  package: pkg
+  error
 }: SubState & { indicator: string }): string {
   if (error) {
     return chalk.red(indicator);
@@ -112,3 +115,15 @@ export function render(props: Props): string {
 
   return lines.concat(errorSummaries).join(EOL);
 }
+
+export const createRenderer = (store: Store<State, Action>) => () => {
+  const state = store.getState();
+
+  logUpdate(
+    render({
+      width: getWidth(state),
+      height: getHeight(state),
+      packages: getPackages(state)
+    })
+  );
+};

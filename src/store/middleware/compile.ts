@@ -7,13 +7,14 @@ import {
   enqueueCompile
 } from "../action";
 import { Compiler } from "../../compiler";
+import { getPackageMap } from "../../store/selectors";
 
 export const createMiddleware = (
   compiler: Compiler
 ): Middleware<{}, State> => store => next => (action: Action) => {
   switch (action.type) {
     case "COMPILE_STARTED": {
-      const { busy } = store.getState()[action.dir];
+      const { busy } = getPackageMap(store.getState())[action.dir];
       if (busy) {
         store.dispatch(enqueueCompile(action.dir));
         return;
@@ -27,7 +28,7 @@ export const createMiddleware = (
     }
 
     case "COMPILE_COMPLETED": {
-      const { queued } = store.getState()[action.dir];
+      const { queued } = getPackageMap(store.getState())[action.dir];
       if (queued) {
         const nextAction = next(action);
         store.dispatch(startCompile(action.dir));

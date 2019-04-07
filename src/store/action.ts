@@ -32,11 +32,23 @@ export const enqueueCompile = (dir: string) => ({
   dir
 });
 
+export const setSize = ({
+  width,
+  height
+}: {
+  width: number;
+  height: number;
+}) => ({
+  type: "RESIZED" as const,
+  width,
+  height
+});
+
 export type Action =
   | ReturnType<typeof addPackage>
   | ReturnType<typeof makeReady>
   | ReturnType<typeof getBusy>
-  | ReturnType<typeof free>
   | ReturnType<typeof startCompile>
   | ReturnType<typeof completeCompile>
-  | ReturnType<typeof enqueueCompile>;
+  | ReturnType<typeof enqueueCompile>
+  | ReturnType<typeof setSize>;

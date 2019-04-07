@@ -15,5 +15,11 @@ export type SubState = {
 };
 
 export type State = {
-  [dir: string]: SubState;
+  size: {
+    width: number;
+    height: number;
+  };
+  packages: {
+    [dir: string]: SubState;
+  };
 };

@@ -5,14 +5,19 @@ import { Action } from "./action";
 import { Compiler } from "../compiler";
 import { createMiddleware as createCompileMiddleware } from "./middleware/compile";
 import { createMiddleware as createLogMiddleware } from "./middleware/log";
+import { createMiddleware as createResizeMiddleware } from "./middleware/resize";
 
 export function createStore(
   initialState: State,
-  { compiler }: { compiler: Compiler }
+  { compiler, tty }: { compiler: Compiler; tty: typeof process.stdout }
 ) {
   return createReduxStore<State, Action, {}, {}>(
     reducer,
     initialState,
-    applyMiddleware(createCompileMiddleware(compiler), createLogMiddleware())
+    applyMiddleware(
+      createResizeMiddleware(tty),
+      createCompileMiddleware(compiler),
+      createLogMiddleware()
+    )
   );
 }
