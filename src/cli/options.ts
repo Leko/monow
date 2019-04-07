@@ -1,4 +1,5 @@
 import yargs from "yargs";
+// @ts-ignore
 import { name, version, repository } from "../../package.json";
 
 const cmd = yargs
