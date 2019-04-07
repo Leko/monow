@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Zero configuration monorepo watcher",
   "bin": "index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "prepare": "rm -rf dist && npm-run-all build:*",
     "build:cjs": "tsc --module commonjs --target es2017 --outDir dist",
