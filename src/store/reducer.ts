@@ -1,5 +1,5 @@
 import { produce, Draft } from "immer";
-import { State, SubState } from "./state";
+import { State } from "./state";
 import { Action } from "./action";
 
 const initialState: State = {
@@ -9,23 +9,6 @@ const initialState: State = {
   },
   packages: {}
 };
-
-function mergePackageState(
-  state: State,
-  key: string,
-  overrides: Partial<SubState>
-): State {
-  return {
-    ...state,
-    packages: {
-      ...state.packages,
-      [key]: {
-        ...state.packages[key],
-        ...overrides
-      }
-    }
-  };
-}
 
 function reduce(draft: Draft<State>, action: Action) {
   switch (action.type) {
