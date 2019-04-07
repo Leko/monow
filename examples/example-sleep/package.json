@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "prepare": "sleep 1",
-    "test": "sleep 1; echo stdout; echo stderr 1>&2; exit 1"
+    "test": "sleep 1"
   },
   "dependencies": {
     "example-random-error": "*",

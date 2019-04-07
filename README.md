@@ -2,6 +2,8 @@
 
 :clap: Zero configuration monorepo watcher
 
+![render1554649008364-min](https://user-images.githubusercontent.com/1424963/55685438-3670c180-5991-11e9-87cc-37729a06f107.gif)
+
 - Currently `monow` is under active development
 - Currently `monow` supports [lerna](https://github.com/lerna/lerna) only
 
