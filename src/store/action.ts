@@ -11,11 +11,6 @@ export const makeReady = (dir: string) => ({
   dir
 });
 
-export const getBusy = (dir: string) => ({
-  type: "GET_BUSY" as const,
-  dir
-});
-
 export const startCompile = (dir: string) => ({
   type: "COMPILE_STARTED" as const,
   dir
@@ -29,6 +24,22 @@ export const completeCompile = (dir: string, error: Error | null) => ({
 
 export const enqueueCompile = (dir: string) => ({
   type: "COMPILE_QUEUED" as const,
+  dir
+});
+
+export const runTest = (dir: string) => ({
+  type: "TEST_STARTED" as const,
+  dir
+});
+
+export const completeTest = (dir: string, error: Error | null) => ({
+  type: "TEST_COMPLETED" as const,
+  dir,
+  error
+});
+
+export const enqueueTest = (dir: string) => ({
+  type: "TEST_QUEUED" as const,
   dir
 });
 
@@ -47,8 +58,10 @@ export const setSize = ({
 export type Action =
   | ReturnType<typeof addPackage>
   | ReturnType<typeof makeReady>
-  | ReturnType<typeof getBusy>
   | ReturnType<typeof startCompile>
   | ReturnType<typeof completeCompile>
   | ReturnType<typeof enqueueCompile>
+  | ReturnType<typeof runTest>
+  | ReturnType<typeof completeTest>
+  | ReturnType<typeof enqueueTest>
   | ReturnType<typeof setSize>;

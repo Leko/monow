@@ -3,12 +3,15 @@
 export type Package = {
   name: string;
   location: string;
+  localDependents: Map<string, Package>;
 };
 
 export type SubState = {
   ready: boolean;
-  queued: boolean;
-  busy: boolean;
+  buildQueued: boolean;
+  testQueued: boolean;
+  buildBusy: boolean;
+  testBusy: boolean;
   error: Error | null;
   logPath: string;
   package: Package;

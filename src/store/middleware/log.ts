@@ -8,18 +8,13 @@ export const createMiddleware = (): Middleware<{}, State> => store => next => (
   action: Action
 ) => {
   switch (action.type) {
-    case "COMPILE_STARTED": {
-      const { logPath } = getPackageMap(store.getState())[action.dir];
-      fs.truncateSync(logPath);
-      break;
-    }
-
+    case "TEST_COMPLETED":
     case "COMPILE_COMPLETED": {
+      const nextAction = next(action);
       const { logPath, error } = getPackageMap(store.getState())[action.dir];
-      if (error) {
-        fs.writeFileSync(logPath, error.message, "utf8");
-      }
-      break;
+      fs.writeFileSync(logPath, error ? error.message : "");
+
+      return nextAction;
     }
   }
 

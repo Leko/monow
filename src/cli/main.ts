@@ -21,6 +21,7 @@ async function getStore(rootDir: string, options: Options) {
   const compiler = new Compiler({ shell: options.buildScript });
   const tester = new Tester({ shell: options.testScript });
   const lernaPackages = await getLernaPackages(rootDir);
+
   const initialState = lernaPackages.reduce(
     (state, pkg) => {
       const { name: logPath } = tmp.fileSync({

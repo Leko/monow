@@ -1,5 +1,6 @@
 {
   "name": "example-always-error",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "prepare": "echo stdout; echo stderr 1>&2; exit 1"

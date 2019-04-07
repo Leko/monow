@@ -1,5 +1,6 @@
 {
   "name": "example-random-error",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "prepare": "node random-exit.js"

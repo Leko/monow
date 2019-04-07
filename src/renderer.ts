@@ -17,7 +17,8 @@ type Props = {
 function renderIndicator({
   indicator,
   ready,
-  busy,
+  buildBusy,
+  testBusy,
   error
 }: SubState & { indicator: string }): string {
   if (error) {
@@ -26,18 +27,25 @@ function renderIndicator({
   if (!ready) {
     return chalk.dim(indicator);
   }
-  if (busy) {
+  if (buildBusy || testBusy) {
     return chalk.yellow(indicator);
   }
   return chalk.green(indicator);
 }
 
-function renderStatus({ error, busy, queued, package: pkg }: SubState): string {
+function renderStatus({
+  error,
+  buildBusy,
+  testBusy,
+  buildQueued,
+  testQueued,
+  package: pkg
+}: SubState): string {
   if (error) {
     return chalk.red(pkg.name);
   }
-  if (busy) {
-    if (queued) {
+  if (buildBusy || testBusy) {
+    if (buildQueued || testQueued) {
       return `${pkg.name} (queued)`;
     }
     return chalk.dim(pkg.name);
