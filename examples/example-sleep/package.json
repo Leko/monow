@@ -2,6 +2,6 @@
   "name": "example-sleep",
   "private": true,
   "scripts": {
-    "prepare": "sleep 5"
+    "prepare": "sleep 3"
   }
 }
