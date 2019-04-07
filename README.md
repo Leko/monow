@@ -49,11 +49,11 @@ Examples:
 ## Development
 
 ```
-git clone git@github.com:Leko/hygiene.git
-cd hygiene
+git clone git@github.com:Leko/monow.git
+cd monow
 npm i
-npx lerna bootstrap
-npm test
+
+npx ts-node -T src/cli/index.ts # debug
 ```
 
 ## License
