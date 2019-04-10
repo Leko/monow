@@ -8,6 +8,10 @@ export function head(str: string, n: number): string {
     .join(EOL);
 }
 
+export function wordWrap(str: string, width: number): string {
+  return wrapANSI(str, width, { hard: true, trim: false });
+}
+
 export function headWordWrap(str: string, width: number, height: number) {
-  return head(wrapANSI(str, width, { hard: true, trim: false }), height);
+  return head(wordWrap(str, width), height);
 }
