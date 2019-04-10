@@ -14,17 +14,21 @@ export function createStore(
   {
     compiler,
     tester,
+    runTests,
     tty
-  }: { compiler: Compiler; tester: Tester | null; tty: typeof process.stdout }
+  }: {
+    compiler: Compiler;
+    tester: Tester;
+    runTests: boolean;
+    tty: typeof process.stdout;
+  }
 ) {
   const middlewares = [
     createResizeMiddleware(tty),
-    createCompileMiddleware(compiler),
+    createCompileMiddleware(compiler, { runTests }),
+    createTestMiddleware(tester),
     createLogMiddleware()
   ];
-  if (tester !== null) {
-    middlewares.unshift(createTestMiddleware(tester));
-  }
 
   return createReduxStore<State, Action, {}, {}>(
     reducer,

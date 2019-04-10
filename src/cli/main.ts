@@ -41,7 +41,8 @@ async function getStore(rootDir: string, options: Options) {
   return createStore(initialState, {
     compiler,
     tty,
-    tester: options.runTests ? tester : null
+    runTests: options.runTests,
+    tester
   });
 }
 
