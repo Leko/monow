@@ -1,11 +1,11 @@
 # monow
 
-![](https://img.shields.io/npm/v/@monow/cli.svg)
+![](https://img.shields.io/npm/v/monow.svg)
 [![CircleCI](https://circleci.com/gh/Leko/monow.svg?style=svg)](https://circleci.com/gh/Leko/monow)
 [![Greenkeeper badge](https://badges.greenkeeper.io/Leko/monow.svg)](https://greenkeeper.io/)
 [![codecov](https://codecov.io/gh/Leko/monow/branch/master/graph/badge.svg)](https://codecov.io/gh/Leko/monow)
-![](https://img.shields.io/npm/dm/@monow/cli.svg)
-![](https://img.shields.io/npm/l/@monow/cli.svg)
+![](https://img.shields.io/npm/dm/monow.svg)
+![](https://img.shields.io/npm/l/monow.svg)
 
 :clap: Zero configuration monorepo watcher
 
