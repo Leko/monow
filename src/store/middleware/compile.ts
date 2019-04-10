@@ -11,7 +11,12 @@ import { Compiler } from "../../compiler";
 import { getPackageMap } from "../../store/selectors";
 
 export const createMiddleware = (
-  compiler: Compiler
+  compiler: Compiler,
+  {
+    runTests
+  }: {
+    runTests: boolean;
+  }
 ): Middleware<{}, State> => store => next => (action: Action) => {
   switch (action.type) {
     case "COMPILE_STARTED": {
@@ -25,6 +30,9 @@ export const createMiddleware = (
         .compile(action.dir)
         .then(() => {
           store.dispatch(completeCompile(action.dir, null));
+          if (!runTests) {
+            return;
+          }
           const { package: pkg } = getPackageMap(store.getState())[action.dir];
           const dependents = Array.from(
             pkg.localDependents.values(),
