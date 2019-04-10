@@ -1,0 +1,12 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "examples/example-always-error/package.json",
+        "examples/example-random-error/package.json",
+        "examples/example-sleep/package.json",
+        "package.json"
+      ]
+    }
+  }
+}
