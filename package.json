@@ -1,6 +1,6 @@
 {
   "name": "monow",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Zero configuration monorepo watcher",
   "bin": "index.js",
   "files": [
@@ -10,7 +10,7 @@
   "scripts": {
     "prepare": "rm -rf dist && npm-run-all build:*",
     "build:cjs": "tsc --module commonjs --target es2017 --outDir dist",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": "Leko/monow",
   "author": "Leko <leko.noor@gmail.com>",
@@ -36,12 +36,15 @@
   "devDependencies": {
     "@types/execa": "^0.9.0",
     "@types/find-up": "^2.1.1",
+    "@types/jest": "^24.0.11",
     "@types/lodash.sortby": "^4.7.6",
     "@types/tmp": "^0.1.0",
     "@types/wrap-ansi": "^3.0.0",
     "@types/yargs": "^12.0.11",
+    "jest": "^24.7.1",
     "lerna": "^3.13.1",
     "npm-run-all": "^4.1.5",
+    "ts-jest": "^24.0.2",
     "ts-node": "^8.0.3",
     "typescript": "^3.4.2"
   }
