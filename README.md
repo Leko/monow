@@ -1,5 +1,12 @@
 # monow
 
+![](https://img.shields.io/npm/v/@monow/cli.svg)
+[![CircleCI](https://circleci.com/gh/Leko/monow.svg?style=svg)](https://circleci.com/gh/Leko/monow)
+[![Greenkeeper badge](https://badges.greenkeeper.io/Leko/monow.svg)](https://greenkeeper.io/)
+[![codecov](https://codecov.io/gh/Leko/monow/branch/master/graph/badge.svg)](https://codecov.io/gh/Leko/monow)
+![](https://img.shields.io/npm/dm/@monow/cli.svg)
+![](https://img.shields.io/npm/l/@monow/cli.svg)
+
 :clap: Zero configuration monorepo watcher
 
 ![render1554649008364-min](https://user-images.githubusercontent.com/1424963/55685438-3670c180-5991-11e9-87cc-37729a06f107.gif)
@@ -13,7 +20,7 @@
 npm install -g monow
 ```
 
-Or you can use hygiene with `npx` without `npx install`.
+Or you can use monow with `npx` without `npx install`.
 
 ```
 npx monow
