@@ -63,11 +63,14 @@ export async function main(cwd: string, options: Options) {
   }
   for (let { package: pkg } of packages) {
     const ignore = getIgnore(pkg.location);
-    watch(pkg.location, { ignore, ignoreInitial: true })
+    const watcher = watch(pkg.location, { ignore, ignoreInitial: true })
       .on("add", () => store.dispatch(actions.startCompile(pkg.location)))
       .on("unlink", () => store.dispatch(actions.startCompile(pkg.location)))
       .on("change", () => store.dispatch(actions.startCompile(pkg.location)))
       .on("error", () => store.dispatch(actions.startCompile(pkg.location)))
       .on("ready", () => store.dispatch(actions.makeReady(pkg.location)));
+    process.on("SIGINT", () => {
+      watcher.close();
+    });
   }
 }
