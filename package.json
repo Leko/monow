@@ -30,7 +30,7 @@
     "redux": "^4.0.1",
     "string-width": "^4.1.0",
     "tmp": "^0.1.0",
-    "wrap-ansi": "^5.1.0",
+    "wrap-ansi": "^6.0.0",
     "yargs": "^13.0.0-candidate.0"
   },
   "devDependencies": {
