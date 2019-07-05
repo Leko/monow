@@ -1,6 +1,6 @@
 {
   "name": "monow",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "Zero configuration monorepo watcher",
   "bin": "index.js",
   "files": [
