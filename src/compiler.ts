@@ -12,9 +12,9 @@ export class Compiler {
   }
 
   async compile(cwd: string): Promise<void> {
-    const { stderr, failed, code } = await execa.shell(this.shell, { cwd });
+    const { stderr, failed, exitCode } = await execa(this.shell, { cwd, shell: true });
     if (failed) {
-      throw new Error(`[code:${code}] ${stderr}`);
+      throw new Error(`[exitCode:${exitCode}] ${stderr}`);
     }
   }
 }
