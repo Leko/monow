@@ -16,18 +16,17 @@ export class Compiler {
     if (!(await this.shouldRun(cwd))) {
       return;
     }
-    const shell = `npm run ${this.scriptName}`;
-    const { stderr, failed, exitCode } = await execa(shell, {
-      cwd,
-      shell: true
-    });
-    if (failed) {
-      throw new Error(`[exitCode:${exitCode}] ${stderr}`);
+    try {
+      await execa("npm", ["run", this.scriptName], {
+        cwd
+      });
+    } catch (e) {
+      throw new Error(`[exitCode:${e.exitCode}] ${e.stderr}`);
     }
   }
 
   private async shouldRun(cwd: string) {
     const pkg = require(path.join(cwd, "package.json"));
-    return !!pkg[this.scriptName];
+    return pkg.scripts && !!pkg.scripts[this.scriptName];
   }
 }
