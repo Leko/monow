@@ -18,8 +18,8 @@ type Options = {
 
 async function getStore(rootDir: string, options: Options) {
   const tty = process.stdout;
-  const compiler = new Compiler({ shell: options.buildScript });
-  const tester = new Tester({ shell: options.testScript });
+  const compiler = new Compiler({ scriptName: options.buildScript });
+  const tester = new Tester({ scriptName: options.testScript });
   const lernaPackages = await getLernaPackages(rootDir);
 
   const initialState = lernaPackages.reduce(
@@ -64,16 +64,16 @@ export async function main(cwd: string, options: Options) {
   for (let { package: pkg } of packages) {
     const ignore = getIgnore(pkg.location);
     const watcher = watch(pkg.location);
-    watcher.on('change', (_, filename: string) => {
+    watcher.on("change", (_, filename: string) => {
       if (ignore.ignores(filename)) {
-        return
+        return;
       }
-      store.dispatch(actions.startCompile(pkg.location))
-    })
-    store.dispatch(actions.makeReady(pkg.location))
-    watcher.on('error', (error: Error) => {
-      store.dispatch(actions.completeCompile(pkg.location, error))
-    })
+      store.dispatch(actions.startCompile(pkg.location));
+    });
+    store.dispatch(actions.makeReady(pkg.location));
+    watcher.on("error", (error: Error) => {
+      store.dispatch(actions.completeCompile(pkg.location, error));
+    });
     process.on("SIGINT", () => {
       watcher.close();
     });

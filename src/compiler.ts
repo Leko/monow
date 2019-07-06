@@ -1,20 +1,33 @@
+import path from "path";
 import execa from "execa";
 
 type Options = {
-  shell: string;
+  scriptName: string;
 };
 
 export class Compiler {
-  shell: string;
+  scriptName: string;
 
   constructor(options: Options) {
-    this.shell = options.shell;
+    this.scriptName = options.scriptName;
   }
 
   async compile(cwd: string): Promise<void> {
-    const { stderr, failed, exitCode } = await execa(this.shell, { cwd, shell: true });
+    if (!(await this.shouldRun(cwd))) {
+      return;
+    }
+    const shell = `npm run ${this.scriptName}`;
+    const { stderr, failed, exitCode } = await execa(shell, {
+      cwd,
+      shell: true
+    });
     if (failed) {
       throw new Error(`[exitCode:${exitCode}] ${stderr}`);
     }
+  }
+
+  private async shouldRun(cwd: string) {
+    const pkg = require(path.join(cwd, "package.json"));
+    return !!pkg[this.scriptName];
   }
 }
