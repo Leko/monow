@@ -1,3 +1,4 @@
+import { FSWatcher } from "fs";
 import tmp from "tmp";
 import { createStore } from "../store";
 import { getPackages } from "../store/selectors";
@@ -61,21 +62,24 @@ export async function main(cwd: string, options: Options) {
   if (packages.length === 0) {
     console.log(`package not found in ${rootDir}`);
   }
+
+  const watchers: FSWatcher[] = [];
+  process.on("SIGINT", () => {
+    watchers.forEach(w => w.close());
+  });
   for (let { package: pkg } of packages) {
     const ignore = getIgnore(pkg.location);
     const watcher = watch(pkg.location);
+    watchers.push(watcher);
     watcher.on("change", (_, filename: string) => {
       if (ignore.ignores(filename)) {
         return;
       }
       store.dispatch(actions.startCompile(pkg.location));
     });
-    store.dispatch(actions.makeReady(pkg.location));
     watcher.on("error", (error: Error) => {
       store.dispatch(actions.completeCompile(pkg.location, error));
     });
-    process.on("SIGINT", () => {
-      watcher.close();
-    });
+    store.dispatch(actions.makeReady(pkg.location));
   }
 }
