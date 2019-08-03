@@ -1,6 +1,7 @@
 import { EOL } from "os";
 import { Store } from "redux";
 import logUpdate from "log-update";
+import terminalLink from 'terminal-link'
 import stringWidth from "string-width";
 import chalk from "chalk";
 import { headWordWrap } from "./lib/ansi";
@@ -54,7 +55,8 @@ function renderStatus({
 }
 
 function renderLogPath({ error, logPath }: SubState): string {
-  return error ? `(saved to ${logPath})` : "";
+  const link = terminalLink.isSupported ? terminalLink(logPath, `file://${logPath}`) : logPath;
+  return error ? `(saved to ${link})` : "";
 }
 
 function renderError({ error }: SubState): string {
