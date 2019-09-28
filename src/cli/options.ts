@@ -23,6 +23,12 @@ const cmd = yargs
     default: false,
     description: "Run test when dependent packages changed"
   })
+  .option("no-notify", {
+    alias: "N",
+    type: "boolean",
+    default: false,
+    description: "Do not notify"
+  })
   .example("$0", "Run build only")
   .example("$0 -T", "Run build and test when dependent packages changed")
   .example('$0 -b "make build"', "Customize build script")

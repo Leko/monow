@@ -16,16 +16,18 @@ export function createStore(
     compiler,
     tester,
     runTests,
+    allowNotify,
     tty
   }: {
     compiler: Compiler;
     tester: Tester;
     runTests: boolean;
+    allowNotify: boolean;
     tty: typeof process.stdout;
   }
 ) {
   const middlewares = [
-    createNotifyMiddleware(),
+    createNotifyMiddleware({ allowNotify }),
     createResizeMiddleware(tty),
     createCompileMiddleware(compiler, { runTests }),
     createTestMiddleware(tester),
