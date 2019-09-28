@@ -8,6 +8,7 @@ import { createMiddleware as createCompileMiddleware } from "./middleware/compil
 import { createMiddleware as createTestMiddleware } from "./middleware/test";
 import { createMiddleware as createLogMiddleware } from "./middleware/log";
 import { createMiddleware as createResizeMiddleware } from "./middleware/resize";
+import { createMiddleware as createNotifyMiddleware } from "./middleware/notify";
 
 export function createStore(
   initialState: State,
@@ -15,15 +16,18 @@ export function createStore(
     compiler,
     tester,
     runTests,
+    allowNotify,
     tty
   }: {
     compiler: Compiler;
     tester: Tester;
     runTests: boolean;
+    allowNotify: boolean;
     tty: typeof process.stdout;
   }
 ) {
   const middlewares = [
+    createNotifyMiddleware({ allowNotify }),
     createResizeMiddleware(tty),
     createCompileMiddleware(compiler, { runTests }),
     createTestMiddleware(tester),

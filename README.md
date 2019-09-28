@@ -33,17 +33,18 @@ Options:
   --help              Show help                                        [boolean]
   --version           Show version number                              [boolean]
   --build-script, -b  Shell script to build your package
-                                           [string] [default: "prepare"]
+                                                   [string] [default: "prepare"]
   --test-script, -t   Shell script to test your package
-                                              [string] [default: "test"]
+                                                      [string] [default: "test"]
   --run-test, -T      Run test when dependent packages changed
                                                       [boolean] [default: false]
+  --no-notify, -N     Do not notify                   [boolean] [default: false]
 
 Examples:
-  monow                    Run build only
-  monow -T                 Run build and test when dependent packages changed
-  monow -b "make build"    Customize build script
-  monow -t "lint"  Customize test script
+  monow                  Run build only
+  monow -T               Run build and test when dependent packages changed
+  monow -b "make build"  Customize build script
+  monow -t "lint"        Customize test script
 ```
 
 ## Contribution

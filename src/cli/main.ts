@@ -15,6 +15,7 @@ type Options = {
   buildScript: string;
   testScript: string;
   runTests: boolean;
+  allowNotify: boolean;
 };
 
 async function getStore(rootDir: string, options: Options) {
@@ -43,6 +44,7 @@ async function getStore(rootDir: string, options: Options) {
     compiler,
     tty,
     runTests: options.runTests,
+    allowNotify: options.allowNotify,
     tester
   });
 }
