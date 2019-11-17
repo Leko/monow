@@ -9,6 +9,7 @@ import { createMiddleware as createTestMiddleware } from "./middleware/test";
 import { createMiddleware as createLogMiddleware } from "./middleware/log";
 import { createMiddleware as createResizeMiddleware } from "./middleware/resize";
 import { createMiddleware as createNotifyMiddleware } from "./middleware/notify";
+import { createMiddleware as createCursorMiddleware } from "./middleware/cursor";
 
 export function createStore(
   initialState: State,
@@ -29,6 +30,7 @@ export function createStore(
   const middlewares = [
     createNotifyMiddleware({ allowNotify }),
     createResizeMiddleware(tty),
+    createCursorMiddleware(),
     createCompileMiddleware(compiler, { runTests }),
     createTestMiddleware(tester),
     createLogMiddleware()

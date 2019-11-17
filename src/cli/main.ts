@@ -10,6 +10,7 @@ import { reducer } from "../store/reducer";
 import * as actions from "../store/action";
 import { Compiler } from "../compiler";
 import { Tester } from "../tester";
+import { registerKeypress } from '../registerKeypress';
 
 type Options = {
   buildScript: string;
@@ -36,6 +37,9 @@ async function getStore(rootDir: string, options: Options) {
         width: tty.columns!,
         height: tty.rows!
       },
+      cursor: {
+        position: 0
+      },
       packages: {}
     }
   );
@@ -59,6 +63,7 @@ export async function main(cwd: string, options: Options) {
 
   const store = await getStore(rootDir, options);
   store.subscribe(createRenderer(store));
+  registerKeypress({ store })
 
   const packages = getPackages(store.getState());
   if (packages.length === 0) {

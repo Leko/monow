@@ -55,6 +55,20 @@ export const setSize = ({
   height
 });
 
+export const onKeypress = (chunk:any, key:any) => ({
+  type: "ON_KEYPRESS" as const,
+  chunk,
+  key
+});
+
+export const moveUpCursor = () => ({
+  type: "CURSOR_MOVE_UP" as const,
+});
+
+export const moveDownCursor = () => ({
+  type: "CURSOR_MOVE_DOWN" as const,
+});
+
 export type Action =
   | ReturnType<typeof addPackage>
   | ReturnType<typeof makeReady>
@@ -64,4 +78,7 @@ export type Action =
   | ReturnType<typeof runTest>
   | ReturnType<typeof completeTest>
   | ReturnType<typeof enqueueTest>
-  | ReturnType<typeof setSize>;
+  | ReturnType<typeof setSize>
+  | ReturnType<typeof onKeypress>
+  | ReturnType<typeof moveUpCursor>
+  | ReturnType<typeof moveDownCursor>

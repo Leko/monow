@@ -7,6 +7,9 @@ const initialState: State = {
     width: -1,
     height: -1
   },
+  cursor: {
+    position: 0
+  },
   packages: {}
 };
 
@@ -54,6 +57,14 @@ function reduce(draft: Draft<State>, action: Action) {
     case "RESIZED": {
       draft.size.width = action.width;
       draft.size.height = action.height;
+      break;
+    }
+    case "CURSOR_MOVE_UP": {
+      draft.cursor.position -= 1
+      break;
+    }
+    case "CURSOR_MOVE_DOWN": {
+      draft.cursor.position += 1;
       break;
     }
   }

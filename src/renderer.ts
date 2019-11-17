@@ -7,13 +7,42 @@ import chalk from "chalk";
 import { headWordWrap } from "./lib/ansi";
 import { SubState, State } from "./store/state";
 import { Action } from "./store/action";
-import { getPackages, getWidth, getHeight } from "./store/selectors";
+import { getPackages, getWidth, getHeight, getCursor } from "./store/selectors";
 
 type Props = {
   width: number;
   height: number;
+  cursor: number;
   packages: SubState[];
 };
+
+function renderCursor({
+  cursor,
+  index,
+  indicator,
+  ready,
+  buildBusy,
+  testBusy,
+  error,
+}: SubState & {
+  indicator: string
+  cursor: number
+  index: number
+}): string {
+  if (cursor !== index) {
+    return ' '
+  }
+  if (error) {
+    return chalk.red(indicator);
+  }
+  if (!ready) {
+    return chalk.dim(indicator);
+  }
+  if (buildBusy || testBusy) {
+    return chalk.yellow(indicator);
+  }
+  return chalk.green(indicator);
+}
 
 function renderIndicator({
   indicator,
@@ -99,16 +128,17 @@ function renderErrorSummary({
 }
 
 export function render(props: Props): string {
-  const { width, height, packages } = props;
+  const { width, height, cursor, packages } = props;
 
   const lines = packages
-    .map(subState => ({
+    .map((subState, index) => ({
+      cursor: renderCursor({...subState, indicator: "❯" , cursor, index }),
       indicator: renderIndicator({ ...subState, indicator: "●" }),
       status: renderStatus(subState),
       logPath: renderLogPath(subState)
     }))
-    .map(({ indicator, status, logPath }) => {
-      return `${indicator} ${status} ${logPath}`;
+    .map(({ cursor, indicator, status, logPath }) => {
+      return `${cursor}${indicator} ${status} ${logPath}`;
     });
 
   const restLines = height - lines.length;
@@ -128,6 +158,7 @@ export const createRenderer = (store: Store<State, Action>) => () => {
     render({
       width: getWidth(state),
       height: getHeight(state),
+      cursor: getCursor(state),
       packages: getPackages(state)
     })
   );

@@ -12,3 +12,5 @@ export const getPackages = (state: State) =>
     Object.values(getPackageMap(state)),
     subState => subState.package.name
   );
+
+export const getCursor = (state: State) => state.cursor.position;

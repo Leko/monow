@@ -22,6 +22,9 @@ export type State = {
     width: number;
     height: number;
   };
+  cursor: {
+    position: number;
+  };
   packages: {
     [dir: string]: SubState;
   };
