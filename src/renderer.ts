@@ -16,6 +16,18 @@ type Props = {
   packages: SubState[];
 };
 
+function renderWelcomeMessages(): string[] {
+  const description = chalk.gray(
+    `⬢ Now watching the files, saving any file will rebuild the package.`
+  );
+  const question =
+    chalk.green(`? `) +
+    chalk.gray.italic(`interactive rebuild? `) +
+    chalk.gray.italic.underline(`(select=spacekey, run=return)`);
+  const breakline = ""
+  return [description, question, breakline]
+}
+
 function renderCursor({
   cursor,
   index,
@@ -150,14 +162,15 @@ export function render(props: Props): string {
       return `${cursor}${indicator} ${status} ${logPath}`;
     });
 
-  const restLines = height - lines.length;
+  const welcome = renderWelcomeMessages()
+  const restLines = height - (welcome.length + lines.length);
   const erroredPackages = packages.filter(({ error }) => !!error);
   const linesPerError = Math.floor(restLines / erroredPackages.length);
   const errorSummaries = erroredPackages.map(subState =>
     renderErrorSummary({ width, lines: linesPerError, ...subState })
   );
 
-  return lines.concat(errorSummaries).join(EOL);
+  return [...welcome,...lines,...errorSummaries].join(EOL);
 }
 
 export const createRenderer = (store: Store<State, Action>) => () => {
