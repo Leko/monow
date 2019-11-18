@@ -11,6 +11,11 @@ export const makeReady = (dir: string) => ({
   dir
 });
 
+export const toggleSelected = (dir: string) => ({
+  type: "TOGGLE_SELECTED" as const,
+  dir
+});
+
 export const startCompile = (dir: string) => ({
   type: "COMPILE_STARTED" as const,
   dir
@@ -72,6 +77,7 @@ export const moveDownCursor = () => ({
 export type Action =
   | ReturnType<typeof addPackage>
   | ReturnType<typeof makeReady>
+  | ReturnType<typeof toggleSelected>
   | ReturnType<typeof startCompile>
   | ReturnType<typeof completeCompile>
   | ReturnType<typeof enqueueCompile>

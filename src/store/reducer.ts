@@ -20,6 +20,7 @@ function reduce(draft: Draft<State>, action: Action) {
         package: action.pkg,
         logPath: action.logPath,
         ready: false,
+        selected: false,
         buildBusy: false,
         buildQueued: false,
         testBusy: false,
@@ -29,6 +30,9 @@ function reduce(draft: Draft<State>, action: Action) {
       break;
     case "MAKE_READY":
       draft.packages[action.dir].ready = true;
+      break;
+    case "TOGGLE_SELECTED":
+      draft.packages[action.dir].selected = !draft.packages[action.dir].selected;
       break;
     case "COMPILE_STARTED":
       draft.packages[action.dir].buildBusy = true;

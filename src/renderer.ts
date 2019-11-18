@@ -1,7 +1,7 @@
 import { EOL } from "os";
 import { Store } from "redux";
 import logUpdate from "log-update";
-import terminalLink from 'terminal-link'
+import terminalLink from "terminal-link";
 import stringWidth from "string-width";
 import chalk from "chalk";
 import { headWordWrap } from "./lib/ansi";
@@ -23,14 +23,14 @@ function renderCursor({
   ready,
   buildBusy,
   testBusy,
-  error,
+  error
 }: SubState & {
-  indicator: string
-  cursor: number
-  index: number
+  indicator: string;
+  cursor: number;
+  index: number;
 }): string {
   if (cursor !== index) {
-    return ' '
+    return " ";
   }
   if (error) {
     return chalk.red(indicator);
@@ -49,8 +49,12 @@ function renderIndicator({
   ready,
   buildBusy,
   testBusy,
-  error
+  error,
+  selected
 }: SubState & { indicator: string }): string {
+  if (selected) {
+    return chalk.yellow(indicator);
+  }
   if (error) {
     return chalk.red(indicator);
   }
@@ -84,7 +88,9 @@ function renderStatus({
 }
 
 function renderLogPath({ error, logPath }: SubState): string {
-  const link = terminalLink.isSupported ? terminalLink(logPath, `file://${logPath}`) : logPath;
+  const link = terminalLink.isSupported
+    ? terminalLink(logPath, `file://${logPath}`)
+    : logPath;
   return error ? `(saved to ${link})` : "";
 }
 
@@ -132,8 +138,11 @@ export function render(props: Props): string {
 
   const lines = packages
     .map((subState, index) => ({
-      cursor: renderCursor({...subState, indicator: "❯" , cursor, index }),
-      indicator: renderIndicator({ ...subState, indicator: "●" }),
+      cursor: renderCursor({ ...subState, indicator: "❯", cursor, index }),
+      indicator: renderIndicator({
+        ...subState,
+        indicator: subState.selected ? "■" : "●"
+      }),
       status: renderStatus(subState),
       logPath: renderLogPath(subState)
     }))

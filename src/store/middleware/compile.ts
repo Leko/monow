@@ -5,6 +5,7 @@ import {
   startCompile,
   completeCompile,
   enqueueCompile,
+  toggleSelected,
   runTest
 } from "../action";
 import { Compiler } from "../../compiler";
@@ -20,7 +21,10 @@ export const createMiddleware = (
 ): Middleware<{}, State> => store => next => (action: Action) => {
   switch (action.type) {
     case "COMPILE_STARTED": {
-      const { buildBusy } = getPackageMap(store.getState())[action.dir];
+      const { buildBusy, selected } = getPackageMap(store.getState())[action.dir];
+      if (selected) {
+        store.dispatch(toggleSelected(action.dir));
+      }
       if (buildBusy) {
         store.dispatch(enqueueCompile(action.dir));
         return;

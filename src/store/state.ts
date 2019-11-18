@@ -8,6 +8,7 @@ export type Package = {
 
 export type SubState = {
   ready: boolean;
+  selected: boolean;
   buildQueued: boolean;
   testQueued: boolean;
   buildBusy: boolean;
