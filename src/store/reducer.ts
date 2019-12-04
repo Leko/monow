@@ -7,6 +7,9 @@ const initialState: State = {
     width: -1,
     height: -1
   },
+  cursor: {
+    position: 0
+  },
   packages: {}
 };
 
@@ -17,6 +20,7 @@ function reduce(draft: Draft<State>, action: Action) {
         package: action.pkg,
         logPath: action.logPath,
         ready: false,
+        selected: false,
         buildBusy: false,
         buildQueued: false,
         testBusy: false,
@@ -26,6 +30,9 @@ function reduce(draft: Draft<State>, action: Action) {
       break;
     case "MAKE_READY":
       draft.packages[action.dir].ready = true;
+      break;
+    case "TOGGLE_SELECTED":
+      draft.packages[action.dir].selected = !draft.packages[action.dir].selected;
       break;
     case "COMPILE_STARTED":
       draft.packages[action.dir].buildBusy = true;
@@ -54,6 +61,14 @@ function reduce(draft: Draft<State>, action: Action) {
     case "RESIZED": {
       draft.size.width = action.width;
       draft.size.height = action.height;
+      break;
+    }
+    case "CURSOR_MOVE_UP": {
+      draft.cursor.position -= 1
+      break;
+    }
+    case "CURSOR_MOVE_DOWN": {
+      draft.cursor.position += 1;
       break;
     }
   }

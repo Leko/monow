@@ -12,3 +12,8 @@ export const getPackages = (state: State) =>
     Object.values(getPackageMap(state)),
     subState => subState.package.name
   );
+
+export const getSelectedPackages = (state: State) =>
+  getPackages(state).filter(pkg => !!pkg.selected);
+
+export const getCursor = (state: State) => state.cursor.position;

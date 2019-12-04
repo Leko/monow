@@ -8,6 +8,7 @@ export type Package = {
 
 export type SubState = {
   ready: boolean;
+  selected: boolean;
   buildQueued: boolean;
   testQueued: boolean;
   buildBusy: boolean;
@@ -21,6 +22,9 @@ export type State = {
   size: {
     width: number;
     height: number;
+  };
+  cursor: {
+    position: number;
   };
   packages: {
     [dir: string]: SubState;
