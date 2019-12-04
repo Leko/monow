@@ -21,7 +21,7 @@ export class Compiler {
         cwd
       });
     } catch (e) {
-      throw new Error(`[exitCode:${e.exitCode}] ${e.stderr}`);
+      throw new Error(`[exitCode:${e.exitCode}] ${e.all}`);
     }
   }
 
