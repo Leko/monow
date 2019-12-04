@@ -18,7 +18,8 @@ export class Compiler {
     }
     try {
       await execa("npm", ["run", this.scriptName], {
-        cwd
+        cwd,
+        all: true,
       });
     } catch (e) {
       throw new Error(`[exitCode:${e.exitCode}] ${e.all}`);
