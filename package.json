@@ -23,7 +23,7 @@
     "execa": "~3.4.0",
     "find-up": "~4.1.0",
     "ignore": "~5.1.4",
-    "immer": "~5.0.0",
+    "immer": "~5.1.0",
     "lodash.sortby": "~4.7.0",
     "log-update": "~3.3.0",
     "node-notifier": "~6.0.0",
