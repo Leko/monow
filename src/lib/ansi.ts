@@ -15,3 +15,7 @@ export function wordWrap(str: string, width: number): string {
 export function headWordWrap(str: string, width: number, height: number) {
   return head(wordWrap(str, width), height);
 }
+
+export function countLines(str: string) {
+  return (str.match(/\n/g) || "").length + 1;
+}
