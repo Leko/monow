@@ -38,7 +38,7 @@ export const createMiddleware = (
             pkg.localDependents.values(),
             pkg => pkg.location
           );
-          for (let dependent of dependents) {
+          for (const dependent of dependents) {
             store.dispatch(runTest(dependent));
           }
         })

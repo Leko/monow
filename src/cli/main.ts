@@ -69,7 +69,7 @@ export async function main(cwd: string, options: Options) {
   process.on("SIGINT", () => {
     watchers.forEach(w => w.close());
   });
-  for (let { package: pkg } of packages) {
+  for (const { package: pkg } of packages) {
     const ignore = getIgnore(pkg.location);
     const watcher = watch(pkg.location);
     watchers.push(watcher);
