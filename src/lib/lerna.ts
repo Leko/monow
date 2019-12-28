@@ -9,17 +9,13 @@ export function getRootDir(cwd: string): string | null {
 
 export async function getLernaPackages(rootDir: string): Promise<Package[]> {
   // @ts-ignore peerDependencies
-  const { default: Project } = await import(path.join(
-    rootDir,
-    "node_modules",
-    "@lerna/project"
-  ));
+  const { default: Project } = await import(
+    path.join(rootDir, "node_modules", "@lerna/project")
+  );
   // @ts-ignore peerDependencies
-  const { default: PackageGraph } = await import(path.join(
-    rootDir,
-    "node_modules",
-    "@lerna/package-graph"
-  ));
+  const { default: PackageGraph } = await import(
+    path.join(rootDir, "node_modules", "@lerna/package-graph")
+  );
 
   const project = new Project(rootDir);
   const packages = await project.getPackages();
