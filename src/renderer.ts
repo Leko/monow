@@ -1,10 +1,10 @@
 import { EOL } from "os";
 import { Store } from "redux";
 import logUpdate from "log-update";
-import terminalLink from 'terminal-link'
+import terminalLink from "terminal-link";
 import stringWidth from "string-width";
 import chalk from "chalk";
-import { headWordWrap } from "./lib/ansi";
+import { headWordWrap, wordWrap, countLines } from "./lib/ansi";
 import { SubState, State } from "./store/state";
 import { Action } from "./store/action";
 import { getPackages, getWidth, getHeight } from "./store/selectors";
@@ -55,7 +55,9 @@ function renderStatus({
 }
 
 function renderLogPath({ error, logPath }: SubState): string {
-  const link = terminalLink.isSupported ? terminalLink(logPath, `file://${logPath}`) : logPath;
+  const link = terminalLink.isSupported
+    ? terminalLink(logPath, `file://${logPath}`)
+    : logPath;
   return error ? `(saved to ${link})` : "";
 }
 
@@ -78,12 +80,20 @@ function renderDivider({
   padChar?: string;
   numOfHeadChars?: number;
 }): string {
-  const restWidth = width - stringWidth(title) - padding * 2;
-  const headChars = numOfHeadChars;
-  const tailChars = restWidth - numOfHeadChars;
-  return (
-    char.repeat(headChars) + padChar + title + padChar + char.repeat(tailChars)
+  const headChars = char.repeat(numOfHeadChars);
+  const padChars = padChar.repeat(padding);
+  const headCharsWithTitle = wordWrap(
+    headChars + padChars + title + padChars,
+    width
   );
+  const lastLine = headCharsWithTitle
+    .split(EOL)
+    .slice(-1)
+    .join(EOL);
+  const restWidth = width - stringWidth(lastLine);
+  const tailChars = char.repeat(restWidth);
+
+  return headCharsWithTitle + tailChars;
 }
 
 function renderErrorSummary({
@@ -92,10 +102,16 @@ function renderErrorSummary({
   ...subState
 }: SubState & { width: number; lines: number }): string {
   const { package: pkg } = subState;
-  const separator = renderDivider({ title: `Error: ${pkg.name}`, width });
-  const log = headWordWrap(renderError(subState), width, lines - 3);
+  const divider = renderDivider({ title: `Error: ${pkg.name}`, width });
+  const separator = EOL + divider + EOL;
+  const separatorLines = countLines(separator);
+  const log = headWordWrap(
+    renderError(subState),
+    width,
+    lines - separatorLines
+  );
 
-  return EOL + separator + EOL + chalk.red(log);
+  return separator + chalk.red(log);
 }
 
 export function render(props: Props): string {
@@ -109,9 +125,11 @@ export function render(props: Props): string {
     }))
     .map(({ indicator, status, logPath }) => {
       return `${indicator} ${status} ${logPath}`;
-    });
+    })
+    .map(line => wordWrap(line, width));
 
-  const restLines = height - lines.length;
+  const linesCount = lines.reduce((acc, line) => acc + countLines(line), 0);
+  const restLines = height - linesCount;
   const erroredPackages = packages.filter(({ error }) => !!error);
   const linesPerError = Math.floor(restLines / erroredPackages.length);
   const errorSummaries = erroredPackages.map(subState =>
