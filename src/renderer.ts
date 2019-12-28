@@ -1,5 +1,6 @@
 import { EOL } from "os";
 import { Store } from "redux";
+import figures from "figures";
 import logUpdate from "log-update";
 import terminalLink from "terminal-link";
 import stringWidth from "string-width";
@@ -119,7 +120,7 @@ export function render(props: Props): string {
 
   const lines = packages
     .map(subState => ({
-      indicator: renderIndicator({ ...subState, indicator: "●" }),
+      indicator: renderIndicator({ ...subState, indicator: figures.bullet }),
       status: renderStatus(subState),
       logPath: renderLogPath(subState)
     }))
