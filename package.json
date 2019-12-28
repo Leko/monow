@@ -12,7 +12,8 @@
     "build:cjs": "tsc --module commonjs --target es2017 --outDir dist",
     "test": "jest",
     "lint": "eslint src/** --ext .ts,.tsx",
-    "lint:fix": "yarn lint --fix"
+    "lint:fix": "yarn lint --fix",
+    "format": "yarn prettier"
   },
   "repository": "Leko/monow",
   "author": "Leko <leko.noor@gmail.com>",
