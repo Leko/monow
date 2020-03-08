@@ -36,7 +36,7 @@
     "terminal-link": "~2.1.0",
     "tmp": "~0.1.0",
     "wrap-ansi": "~6.2.0",
-    "yargs": "~15.0.2"
+    "yargs": "~15.3.0"
   },
   "devDependencies": {
     "@types/execa": "~2.0.0",
