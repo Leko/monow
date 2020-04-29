@@ -34,7 +34,7 @@
     "redux": "~4.0.4",
     "string-width": "~4.2.0",
     "terminal-link": "~2.1.0",
-    "tmp": "~0.1.0",
+    "tmp": "~0.2.1",
     "wrap-ansi": "~6.2.0",
     "yargs": "~15.0.2"
   },
