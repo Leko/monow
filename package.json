@@ -41,7 +41,7 @@
   "devDependencies": {
     "@types/execa": "~2.0.0",
     "@types/find-up": "~4.0.0",
-    "@types/jest": "~24.0.23",
+    "@types/jest": "~25.2.3",
     "@types/lodash.sortby": "~4.7.6",
     "@types/node-notifier": "~5.4.0",
     "@types/tmp": "~0.1.0",
