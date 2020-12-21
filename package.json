@@ -30,7 +30,7 @@
     "immer": "~5.1.0",
     "lodash.sortby": "~4.7.0",
     "log-update": "~3.3.0",
-    "node-notifier": "~6.0.0",
+    "node-notifier": "~8.0.1",
     "redux": "~4.0.4",
     "string-width": "~4.2.0",
     "terminal-link": "~2.1.0",
